@@ -1,8 +1,8 @@
 <?php
-    require 'conectar.php';
-    $query = 'SELECT * FROM productos';
-    $res = mysqli_query($mysqli,$query);
-    $row = mysqli_fetch_assoc($res);
+require 'conectar.php';
+$query = 'SELECT * FROM productos';
+$res = mysqli_query($mysqli, $query);
+//$row = mysqli_fetch_assoc($res);
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,25 +31,37 @@
                     <div class="panel-body">
                         <div class="row">
                             <!-- BEGIN PRODUCTS -->
-                            <div class="col-md-4 col-sm-6">
-                                <div class="sc-product-item thumbnail">
-                                    <img data-name="product_image" src="img_productos/chai_late.png">
-                                    <div class="caption">
-                                        <h4 data-name="product_name"><?php echo $row["descripcion"]; ?></h4>
-                                        <p data-name="product_desc">Chai Late Coffe</p>
-                                        <hr class="line">
+                            <?php while ($row = mysqli_fetch_assoc($res)) { ?>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="sc-product-item thumbnail">
+                                        <img data-name="product_image" src="<?php echo $row["imagen"]; ?>">
+                                        <div class="caption">
+                                            <h4 data-name="product_name"><?php echo $row["descripcion"]; ?></h4>
+                                            <p data-name="product_desc"><?php echo $row["descripcion"]; ?></p>
+                                            <hr class="line">
 
-                                        <div>
-                                            <strong class="price pull-left">$2,990.50</strong>
+                                            <div>
+                                                <div class="form-group2">
+                                                    <input class="sc-cart-item-qty" name="product_quantity" min="1" max="<?php echo $row["stock"]; ?>" value="1" type="number">
+                                                </div>
+                                                <strong class="price pull-left">$<?php echo $row["precio_unitario"]; ?></strong>
 
-                                            <input name="product_price" value="2990.50" type="hidden" />
-                                            <input name="product_id" value="12" type="hidden" />
-                                            <button class="sc-add-to-cart btn btn-success btn-sm pull-right">Agregar</button>
+                                                <input name="product_price" value="<?php echo $row["precio_unitario"]; ?>" type="hidden" />
+                                                <input name="product_id" value="<?php echo $row["codigo"]; ?>" type="hidden" />
+                                                <!-- CONTROL STOCK -->
+                                                <?php if($row["stock"]<$row["stock_minimo"]) { ?>
+                                                <button class="sc-add-to-cart btn btn-danger btn-sm pull-right" disabled>Sin Stock</button>
+                                                <?php } else { ?>
+                                                <button class="sc-add-to-cart btn btn-primary btn-sm pull-right">Agregar</button>
+                                                <?php } ?>
+                                                <!-- CONTROL STOCK -->
+                                            </div>
+                                            <div class="clearfix"></div>
                                         </div>
-                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php }
+                            $mysqli->close(); ?>
                             <!-- END PRODUCTS -->
                         </div>
                     </div>
@@ -94,6 +106,10 @@
                         currencyDisplay: 'symbol'
                     }
                 },
+
+            }).on("quantityUpdated", function(eobj, qty) {
+                var product_id = obj.attr("product_id");
+                var quantity = obj.attr("product_quantity");
             });
         });
     </script>
