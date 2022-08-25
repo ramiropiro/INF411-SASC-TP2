@@ -91,12 +91,12 @@ $res = mysqli_query($mysqli, $query);
             // Initialize Smart Cart    	
             $('#smartcart').smartCart({
                 lang: {
-                    cartTitle: "Shopping Cart",
-                    checkout: 'Checkout',
-                    clear: 'Clear',
+                    cartTitle: "Tu Pedido",
+                    checkout: 'Proceder',
+                    clear: 'Limpiar',
                     subtotal: 'Subtotal:',
                     cartRemove: '×',
-                    cartEmpty: 'Cart is Empty!<br />Choose your products'
+                    cartEmpty: 'Pedido Vacío!<br />Elije Productos'
                 },
                 currencySettings: {
                     locales: 'es-AR',
