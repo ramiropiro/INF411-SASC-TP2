@@ -81,12 +81,60 @@ $res = mysqli_query($mysqli, $query);
             </aside>
         </div>
     </section>
+    <!-- Modal -->
 
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ingresa tus datos para el envío</h4>
+                </div>
+                <div class="modal-body">
+                    <input name="nombre" placeholder="Nombre completo" class="form-control" id="nombre" type="text" required />
+                    <br>
+                    <input name="direccion" placeholder="Dirección para enviar" class="form-control" id="direccion" type="text" required />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="login();">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
-    <!-- Include SmartCart -->
+    <!-- Include Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> <!-- Include SmartCart -->
+    <!-- Include smartCart -->
     <script src="dist/js/jquery.smartCart.js" type="text/javascript"></script>
     <!-- Initialize -->
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            //Si la cookie no existe muestra el modal
+            if (document.cookie.indexOf("UserID") < 0) {
+                $("#myModal").modal("show");
+                $("#myModalClose").click(function() {
+                    $("#myModal").modal("hide");
+                });
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        function login() {
+            var apellido = $("#nombre").val();
+            //se genera id usuario
+            $.ajax({
+                type: 'POST',
+                url: 'genera_usuario.php',
+                data: "apellido=" + apellido,
+                success: function( data ) { 
+                    document.cookie = "UserID=" + data + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                }
+            });
+            $("#myModal").modal("hide");
+        }
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             // Initialize Smart Cart    	
