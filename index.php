@@ -33,6 +33,7 @@ $res = mysqli_query($mysqli, $query);
                             <!-- BEGIN PRODUCTS -->
                             <?php while ($row = mysqli_fetch_assoc($res)) { ?>
                                 <div class="col-md-4 col-sm-6">
+                                    <?php if(isset($_COOKIE['UserID'])) { echo $_COOKIE["UserID"]; } ?>
                                     <div class="sc-product-item thumbnail">
                                         <img data-name="product_image" src="<?php echo $row["imagen"]; ?>">
                                         <div class="caption">
@@ -92,7 +93,7 @@ $res = mysqli_query($mysqli, $query);
                     <h4 class="modal-title">Ingresa tus datos para el envío</h4>
                 </div>
                 <div class="modal-body">
-                    <input name="nombre" placeholder="Nombre completo" class="form-control" id="nombre" type="text" required />
+                    <input name="apellido" placeholder="Nombre completo" class="form-control" id="apellido" type="text" required />
                     <br>
                     <input name="direccion" placeholder="Dirección para enviar" class="form-control" id="direccion" type="text" required />
                 </div>
@@ -122,12 +123,13 @@ $res = mysqli_query($mysqli, $query);
     </script>
     <script type="text/javascript">
         function login() {
-            var apellido = $("#nombre").val();
+            var apellido = $("#apellido").val();
+            var direccion = $("#direccion").val();
             //se genera id usuario
             $.ajax({
                 type: 'POST',
                 url: 'genera_usuario.php',
-                data: "apellido=" + apellido,
+                data: "apellido=" + apellido + "&direccion=" + direccion,
                 success: function( data ) { 
                     document.cookie = "UserID=" + data + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
                 }
