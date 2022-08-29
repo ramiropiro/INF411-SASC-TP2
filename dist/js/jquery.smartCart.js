@@ -29,7 +29,8 @@
             productPrice: 'product_price',
             productQuantity: 'product_quantity',
             productName: 'product_name',
-            productId: 'product_id'
+            productId: 'product_id',
+            productStock: 'product_stock' //Se agrego parametro de stock
         },
         lang: { // Language variables
             cartTitle: "Shopping Cart",
@@ -257,10 +258,14 @@
                 });
                 if (pf.length > 0) {
                     var idx = this.cart.indexOf(pf[0]);
-                    this.cart[idx][this.options.paramSettings.productQuantity] = this.cart[idx][this.options.paramSettings.productQuantity] - 0 + (p[this.options.paramSettings.productQuantity] - 0);
-                    p = this.cart[idx];
+                    //VERIFICA SI NO ES EL MAXIMO
+                    //if(this.cart[idx][this.options.paramSettings.productQuantity] < this._getValueOrEmpty(p[this.options.paramSettings.productStock])) {
+                        //this.cart[idx][this.options.paramSettings.productQuantity] = this.cart[idx][this.options.paramSettings.productQuantity] - 0 + (p[this.options.paramSettings.productQuantity] - 0);
+                        p = this.cart[idx];
+                    
                     // Trigger "itemUpdated" event
                     this._triggerEvent("itemUpdated", [p]);
+                    //}
                 } else {
                     this.cart.push(p);
                     // Trigger "itemAdded" event
@@ -315,7 +320,7 @@
                     }
                     mi._addUpdateCartItem(mi.cart[i]);
                     // Trigger "quantityUpdate" event
-                    this._triggerEvent("quantityUpdated", [mi.cart[i], qty]);
+                    mi._triggerEvent("quantityUpdated", [mi.cart[i], qty]);
                     return false;
                 }
             });
@@ -338,7 +343,7 @@
                 elmMain.append(this._formatTemplate(this.options.cartItemTemplate, p));
 
                 var itemSummary = '<div class="sc-cart-item-summary"><span class="sc-cart-item-price">' + this._getMoneyFormatted(p[this.options.paramSettings.productPrice]) + '</span>';
-                itemSummary += ' × <input type="number" min="1" max="1000" class="sc-cart-item-qty" value="' + this._getValueOrEmpty(p[this.options.paramSettings.productQuantity]) + '" />';
+                itemSummary += ' × <input type="number" min="1" max="' + this._getValueOrEmpty(p[this.options.paramSettings.productStock]) + '" class="sc-cart-item-qty" value="' + this._getValueOrEmpty(p[this.options.paramSettings.productQuantity]) + '" disabled />';
                 itemSummary += ' = <span class="sc-cart-item-amount">' + this._getMoneyFormatted(productAmount) + '</span></div>';
 
                 elmMain.append(itemSummary);

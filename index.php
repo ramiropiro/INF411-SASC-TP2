@@ -8,7 +8,7 @@ $res = mysqli_query($mysqli, $query);
 <html>
 
 <head>
-    <title>jQuery Smart Cart - The smart interactive jQuery Shopping Cart plugin with PayPal payment support</title>
+    <title>Café Corrientes</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -42,17 +42,18 @@ $res = mysqli_query($mysqli, $query);
 
                                             <div>
                                                 <div class="form-group2">
-                                                    <input class="sc-cart-item-qty" name="product_quantity" min="1" max="<?php echo $row["stock"]; ?>" value="1" type="number">
+                                                    <input class="sc-cart-item-qty" name="product_quantity" min="1" value="1" max="<?php echo $row["stock"]; ?>" type="number">
                                                 </div>
                                                 <strong class="price pull-left">$<?php echo $row["precio_unitario"]; ?></strong>
 
                                                 <input name="product_price" value="<?php echo $row["precio_unitario"]; ?>" type="hidden" />
+                                                <input name="product_stock" value="<?php echo $row["stock"]; ?>" type="hidden" />
                                                 <input name="product_id" value="<?php echo $row["codigo"]; ?>" type="hidden" />
                                                 <!-- CONTROL STOCK -->
-                                                <?php if($row["stock"]<$row["stock_minimo"]) { ?>
-                                                <button class="sc-add-to-cart btn btn-danger btn-sm pull-right" disabled>Sin Stock</button>
+                                                <?php if ($row["stock"] < $row["stock_minimo"]) { ?>
+                                                    <button class="sc-add-to-cart btn btn-danger btn-sm pull-right" disabled>Sin Stock</button>
                                                 <?php } else { ?>
-                                                <button class="sc-add-to-cart btn btn-primary btn-sm pull-right">Agregar</button>
+                                                    <button class="sc-add-to-cart btn btn-primary btn-sm pull-right">Agregar</button>
                                                 <?php } ?>
                                                 <!-- CONTROL STOCK -->
                                             </div>
@@ -84,7 +85,7 @@ $res = mysqli_query($mysqli, $query);
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
     <!-- Include SmartCart -->
-    <script src="dist/js/jquery.smartCart.min.js" type="text/javascript"></script>
+    <script src="dist/js/jquery.smartCart.js" type="text/javascript"></script>
     <!-- Initialize -->
     <script type="text/javascript">
         $(document).ready(function() {
@@ -107,9 +108,8 @@ $res = mysqli_query($mysqli, $query);
                     }
                 },
 
-            }).on("quantityUpdated", function(eobj, qty) {
-                var product_id = obj.attr("product_id");
-                var quantity = obj.attr("product_quantity");
+            }).on("quantityUpdated", function(pObj, quantity) {
+                //alert(quantity[0]);
             });
         });
     </script>
