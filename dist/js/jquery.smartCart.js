@@ -30,6 +30,7 @@
             productQuantity: 'product_quantity',
             productName: 'product_name',
             productId: 'product_id',
+            productCodigo: 'product_codigo', //Se agrego parametro codigo
             productStock: 'product_stock' //Se agrego parametro de stock
         },
         lang: { // Language variables

@@ -48,7 +48,8 @@ $res = mysqli_query($mysqli, $query);
 
                                                 <input name="product_price" value="<?php echo $row["precio_unitario"]; ?>" type="hidden" />
                                                 <input name="product_stock" value="<?php echo $row["stock"]; ?>" type="hidden" />
-                                                <input name="product_id" value="<?php echo $row["codigo"]; ?>" type="hidden" />
+                                                <input name="product_id" value="<?php echo $row["id"]; ?>" type="hidden" />
+                                                <input name="product_codigo" value="<?php echo $row["codigo"]; ?>" type="hidden" />
                                                 <!-- CONTROL STOCK -->
                                                 <?php if ($row["stock"] < $row["stock_minimo"]) { ?>
                                                     <button class="sc-add-to-cart btn btn-danger btn-sm pull-right" disabled>Sin Stock</button>

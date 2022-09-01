@@ -17,19 +17,37 @@
     require 'conectar.php';
     // Resultados del pedido
     $product_list = filter_input(INPUT_POST, 'cart_list');
-    $user_id = filter_input(INPUT_POST, 'user_id');
+    $user_id = $_COOKIE['UserID'];;
 
     //Obtener Datos Usuario
-    $consultaCliente = 'SELECT * FROM clientes WHERE id=' . $user_id;
-    $resCliente = mysqli_query($mysqli, $consultaCliente);
-    $rowCliente = mysqli_fetch_assoc($resCliente);
-
+    try {
+        $consultaCliente = 'SELECT * FROM clientes WHERE id=' . $user_id;
+        $resCliente = mysqli_query($mysqli, $consultaCliente);
+        $rowCliente = mysqli_fetch_assoc($resCliente);
+    } catch (mysqli_sql_exception $e) {
+        var_dump($e);
+        exit;
+    }
+    //Inserta Nueva Venta
+    try {
+        $consultaVenta = 'INSERT INTO pedidos (clientes_id, forma_pagos_id, fecha_pedido) VALUES ('.$rowCliente['id'].', 3, NOW())';
+        $resVenta = mysqli_query($mysqli, $consultaVenta);
+        $idVenta = mysqli_insert_id($mysqli);
+    } catch (mysqli_sql_exception $e) {
+        var_dump($e);
+        exit;
+    }
     // Convert JSON to array
     $product_list_array = json_decode($product_list);
     $result_html = '';
+    //Variables de cálculo de total
     $sub_cant = 0;
     $sub_precio = 0;
     $total = 0;
+    //Variables de descuento de stock
+    $producto_id = '';
+    $producto_stock = 0;
+    $nuevoValor = 0;
     if ($product_list_array) {
         foreach ($product_list_array as $p) {
             foreach ($p as $key => $value) {
@@ -42,12 +60,32 @@
                 if ($key == 'product_price') {
                     $sub_precio = $value;
                 }
+                if ($key == 'product_id') {
+                    $producto_id = $value;
+                }
+                if ($key == 'product_stock') {
+                    $producto_stock = $value;
+                }
             }
+            //Calculo total a pagar
             $total = $total + ($sub_cant * $sub_precio);
+            //Update de stock
+            $nuevoValor = $producto_stock - $sub_cant;
+            try {
+                //Actualiza Stock
+                $updateStock = "UPDATE productos SET stock=" . $nuevoValor . " WHERE id='" . $producto_id."'";
+                $resStock = mysqli_query($mysqli, $updateStock);
+                //Inserta detalle Pedido
+                $detalleVenta = "INSERT INTO detalle_pedidos (pedidos_id, productos_id, precio_unitario, cantidad) VALUES (".$idVenta.", ".$producto_id.", ".$sub_precio.", ".$sub_cant.")";
+                $resDetalle = mysqli_query($mysqli, $detalleVenta);               
+            } catch (mysqli_sql_exception $e) {
+                var_dump($e);
+                exit;
+            }
             $result_html .= '------------------------------------------<br />';
         }
     } else {
-        $result_html .= "<strong>Cart is Empty</strong>";
+        $result_html .= "<strong>Pedido Vacío</strong>";
     }
     ?>
 
@@ -72,7 +110,7 @@
                         Ticket HTML
                         <hr />
                         <?= isset($result_html) ? $result_html : '' ?>
-                        <strong><?php echo "Total a pagar: $ ".number_format($total, 2); ?></strong>
+                        <strong><?php echo "Total a pagar: $ " . number_format($total, 2); ?></strong>
                     </div>
                 </div>
             </div>
