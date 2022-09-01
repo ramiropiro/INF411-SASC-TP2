@@ -74,7 +74,6 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `clientes_id` bigint(20) unsigned NOT NULL,
   `forma_pagos_id` bigint(20) unsigned NOT NULL,
   `fecha_pedido` date NOT NULL,
-  `total_pago` double(8,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `pedidos_clientes_id_foreign` (`clientes_id`),
   KEY `pedidos_forma_pagos_id_foreign` (`forma_pagos_id`),
