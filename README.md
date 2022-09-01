@@ -1,5 +1,5 @@
 # **INF411 - SEMINARIO DE ACTUALIZACIÓN EN SISTEMAS COLABORATIVOS**
 **TRABAJO PRÁCTICO 2**
-- [x] Ramirez, Ramiro VINF10400
-- [x] Romero, Elio VINF09511
-- [x] 
+- [x] Lunatti, Diego Guillermo - VINF10472
+- [x] Ramirez, Ramiro - VINF10400
+- [x] Romero, Elio - VINF09511
