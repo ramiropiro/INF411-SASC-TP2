@@ -33,7 +33,6 @@ $res = mysqli_query($mysqli, $query);
                             <!-- BEGIN PRODUCTS -->
                             <?php while ($row = mysqli_fetch_assoc($res)) { ?>
                                 <div class="col-md-4 col-sm-6">
-                                    <?php if(isset($_COOKIE['UserID'])) { echo $_COOKIE["UserID"]; } ?>
                                     <div class="sc-product-item thumbnail">
                                         <img data-name="product_image" src="<?php echo $row["imagen"]; ?>">
                                         <div class="caption">
@@ -77,6 +76,7 @@ $res = mysqli_query($mysqli, $query);
                 <form action="results.php" method="POST">
                     <!-- SmartCart element -->
                     <div id="smartcart"></div>
+                    <input name="user_id" value="<?php if(isset($_COOKIE['UserID'])) { echo $_COOKIE["UserID"]; } ?>" type="hidden" />
                 </form>
 
             </aside>
@@ -131,7 +131,7 @@ $res = mysqli_query($mysqli, $query);
                 url: 'genera_usuario.php',
                 data: "apellido=" + apellido + "&direccion=" + direccion,
                 success: function( data ) { 
-                    document.cookie = "UserID=" + data + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+                    document.cookie = "UserID=" + data + "; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/";
                 }
             });
             $("#myModal").modal("hide");

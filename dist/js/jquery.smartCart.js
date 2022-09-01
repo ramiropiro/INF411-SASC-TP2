@@ -260,7 +260,7 @@
                     var idx = this.cart.indexOf(pf[0]);
                     //VERIFICA SI NO ES EL MAXIMO
                     //if(this.cart[idx][this.options.paramSettings.productQuantity] < this._getValueOrEmpty(p[this.options.paramSettings.productStock])) {
-                        //this.cart[idx][this.options.paramSettings.productQuantity] = this.cart[idx][this.options.paramSettings.productQuantity] - 0 + (p[this.options.paramSettings.productQuantity] - 0);
+                        this.cart[idx][this.options.paramSettings.productQuantity] = this.cart[idx][this.options.paramSettings.productQuantity] - 0 + (p[this.options.paramSettings.productQuantity] - 0);
                         p = this.cart[idx];
                     
                     // Trigger "itemUpdated" event
