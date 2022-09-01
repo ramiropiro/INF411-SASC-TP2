@@ -20,38 +20,15 @@ USE `cafe_corrientes`;
 CREATE TABLE IF NOT EXISTS `clientes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `apellido` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombres` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `documento` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `direccion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table cafe_corrientes.clientes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` (`id`, `apellido`, `nombres`, `documento`, `telefono`, `direccion`) VALUES
-	(1, 'RAMIREZ', 'RAMIRO', '29122683', '3775414350', 'Hipolito Irigoyen 335');
+INSERT INTO `clientes` (`id`, `apellido`, `direccion`) VALUES
+	(1, 'RAMIREZ', 'Hipolito Irigoyen 335');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
-
--- Dumping structure for table cafe_corrientes.detalle_pedidos
-CREATE TABLE IF NOT EXISTS `detalle_pedidos` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `pedidos_id` bigint(20) unsigned NOT NULL,
-  `productos_id` bigint(20) unsigned NOT NULL,
-  `precio_unitario` double(8,2) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `detalle_pedidos_pedidos_id_foreign` (`pedidos_id`),
-  KEY `detalle_pedidos_productos_id_foreign` (`productos_id`),
-  CONSTRAINT `detalle_pedidos_pedidos_id_foreign` FOREIGN KEY (`pedidos_id`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `detalle_pedidos_productos_id_foreign` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table cafe_corrientes.detalle_pedidos: ~0 rows (approximately)
-/*!40000 ALTER TABLE `detalle_pedidos` DISABLE KEYS */;
-INSERT INTO `detalle_pedidos` (`id`, `pedidos_id`, `productos_id`, `precio_unitario`, `cantidad`) VALUES
-	(1, 1, 1, 250.00, 1);
-/*!40000 ALTER TABLE `detalle_pedidos` ENABLE KEYS */;
 
 -- Dumping structure for table cafe_corrientes.forma_pagos
 CREATE TABLE IF NOT EXISTS `forma_pagos` (
@@ -83,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
 
 -- Dumping data for table cafe_corrientes.pedidos: ~0 rows (approximately)
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` (`id`, `clientes_id`, `forma_pagos_id`, `fecha_pedido`, `total_pago`) VALUES
-	(1, 1, 3, '2022-08-23', 250.00);
+INSERT INTO `pedidos` (`id`, `clientes_id`, `forma_pagos_id`, `fecha_pedido`) VALUES
+	(1, 1, 3, '2022-08-23');
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 
 -- Dumping structure for table cafe_corrientes.productos
@@ -110,6 +87,26 @@ INSERT INTO `productos` (`id`, `descripcion`, `codigo`, `imagen`, `stock`, `stoc
 	(6, 'SALTED CARAMEL', 'CC0010', 'img_productos/salted_caramel.png', 35, 50, 190.00),
 	(7, 'CHIPA x 5', 'CC0011', 'img_productos/chipa.png', 80, 50, 250.00);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+
+-- Dumping structure for table cafe_corrientes.detalle_pedidos
+CREATE TABLE IF NOT EXISTS `detalle_pedidos` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pedidos_id` bigint(20) unsigned NOT NULL,
+  `productos_id` bigint(20) unsigned NOT NULL,
+  `precio_unitario` double(8,2) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `detalle_pedidos_pedidos_id_foreign` (`pedidos_id`),
+  KEY `detalle_pedidos_productos_id_foreign` (`productos_id`),
+  CONSTRAINT `detalle_pedidos_pedidos_id_foreign` FOREIGN KEY (`pedidos_id`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `detalle_pedidos_productos_id_foreign` FOREIGN KEY (`productos_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table cafe_corrientes.detalle_pedidos: ~0 rows (approximately)
+/*!40000 ALTER TABLE `detalle_pedidos` DISABLE KEYS */;
+INSERT INTO `detalle_pedidos` (`id`, `pedidos_id`, `productos_id`, `precio_unitario`, `cantidad`) VALUES
+	(1, 1, 1, 250.00, 1);
+/*!40000 ALTER TABLE `detalle_pedidos` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

@@ -99,7 +99,7 @@ $res = mysqli_query($mysqli, $query);
                     <input name="direccion" placeholder="Dirección para enviar" class="form-control" id="direccion" type="text" required />
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="login();">Login</button>
+                    <button class="btn btn-primary" onclick="login();">Guardar</button>
                 </div>
             </div>
         </div>
