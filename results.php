@@ -1,3 +1,11 @@
+<?php
+require 'conectar.php';
+session_start();
+if(!isset($_SESSION["usuario"])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -14,8 +22,6 @@
 
 <body>
     <?php
-    require 'conectar.php';
-    include("auth_session.php");
     // Resultados del pedido
     $product_list = filter_input(INPUT_POST, 'cart_list');
     //Inserta Nueva Venta

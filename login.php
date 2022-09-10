@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css"/>
-</head>
-<body>
 <?php
-    require 'conectar.php';
-    session_start();
+require 'conectar.php';
+session_start();
+?>
+<?php
     if (isset($_POST['usuario'])) {
         $usuario = stripslashes($_REQUEST['usuario']);
         $usuario = mysqli_real_escape_string($mysqli, $usuario);
@@ -26,7 +19,7 @@
             $_SESSION['apellido'] = $row['apellido'];
             $_SESSION['nombres'] = $row['nombres'];
             $_SESSION['direccion'] = $row['direccion'];
-            header("Location: index.php");
+            header("Location: index.php", true,  301 );  exit;
         } else {
             echo "<div class='form'>
                   <h3>Contraseña o Usuario Incorrectos.</h3><br/>
@@ -35,6 +28,15 @@
         }
     } else {
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css"/>
+</head>
+<body>
     <form class="form" method="post" name="login">
         <h1 class="login-title"><img src="img/logo.jpg"></h1>
         <input type="text" class="login-input" name="usuario" placeholder="Usuario" autofocus="true"/>
