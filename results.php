@@ -15,22 +15,12 @@
 <body>
     <?php
     require 'conectar.php';
+    include("auth_session.php");
     // Resultados del pedido
     $product_list = filter_input(INPUT_POST, 'cart_list');
-    $user_id = $_COOKIE['UserID'];;
-
-    //Obtener Datos Usuario
-    try {
-        $consultaCliente = 'SELECT * FROM clientes WHERE id=' . $user_id;
-        $resCliente = mysqli_query($mysqli, $consultaCliente);
-        $rowCliente = mysqli_fetch_assoc($resCliente);
-    } catch (mysqli_sql_exception $e) {
-        var_dump($e);
-        exit;
-    }
     //Inserta Nueva Venta
     try {
-        $consultaVenta = 'INSERT INTO pedidos (clientes_id, forma_pagos_id, fecha_pedido) VALUES ('.$rowCliente['id'].', 3, NOW())';
+        $consultaVenta = 'INSERT INTO pedidos (clientes_id, forma_pagos_id, fecha_pedido) VALUES ('.$_SESSION['id_usuario'].', 3, NOW())';
         $resVenta = mysqli_query($mysqli, $consultaVenta);
         $idVenta = mysqli_insert_id($mysqli);
     } catch (mysqli_sql_exception $e) {
@@ -96,8 +86,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Información Procesada del Pedido </br>
-                        Nombre: <strong><?php echo $rowCliente['apellido']; ?></strong> </br>
-                        Dirección: <strong><?php echo $rowCliente['direccion']; ?></strong>
+                        Nombre: <strong><?php echo $_SESSION['apellido'].', '.$_SESSION['nombres']; ?></strong> </br>
+                        Dirección: <strong><?php echo $_SESSION['direccion']; ?></strong>
                     </div>
                     <br />
                     <div class="panel-body">

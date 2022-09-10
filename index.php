@@ -1,5 +1,6 @@
 <?php
 require 'conectar.php';
+include("auth_session.php");
 $query = 'SELECT * FROM productos';
 $res = mysqli_query($mysqli, $query);
 //$row = mysqli_fetch_assoc($res);
@@ -26,7 +27,7 @@ $res = mysqli_query($mysqli, $query);
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Productos
+                        Bienvenido <b><?php echo $_SESSION['apellido'].', '.$_SESSION['nombres']; ?> - <a href="logout.php">Cerrar Sesión</a></b>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -77,67 +78,19 @@ $res = mysqli_query($mysqli, $query);
                 <form action="results.php" method="POST">
                     <!-- SmartCart element -->
                     <div id="smartcart"></div>
-                    <input name="user_id" value="<?php if(isset($_COOKIE['UserID'])) { echo $_COOKIE["UserID"]; } ?>" type="hidden" />
                 </form>
 
             </aside>
         </div>
     </section>
-    <!-- Modal -->
-
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ingresa tus datos para el envío</h4>
-                </div>
-                <div class="modal-body">
-                    <input name="apellido" placeholder="Nombre completo" class="form-control" id="apellido" type="text" required />
-                    <br>
-                    <input name="direccion" placeholder="Dirección para enviar" class="form-control" id="direccion" type="text" required />
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="login();">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
     <!-- Include Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> <!-- Include SmartCart -->
     <!-- Include smartCart -->
     <script src="dist/js/jquery.smartCart.js" type="text/javascript"></script>
-    <!-- Initialize -->
-    <script type="text/javascript">
-        $(window).on('load', function() {
-            //Si la cookie no existe muestra el modal
-            if (document.cookie.indexOf("UserID") < 0) {
-                $("#myModal").modal("show");
-                $("#myModalClose").click(function() {
-                    $("#myModal").modal("hide");
-                });
-            }
-        });
-    </script>
-    <script type="text/javascript">
-        function login() {
-            var apellido = $("#apellido").val();
-            var direccion = $("#direccion").val();
-            //se genera id usuario
-            $.ajax({
-                type: 'POST',
-                url: 'genera_usuario.php',
-                data: "apellido=" + apellido + "&direccion=" + direccion,
-                success: function( data ) { 
-                    document.cookie = "UserID=" + data + "; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/";
-                }
-            });
-            $("#myModal").modal("hide");
-        }
-    </script>
+ 
     <script type="text/javascript">
         $(document).ready(function() {
             // Initialize Smart Cart    	

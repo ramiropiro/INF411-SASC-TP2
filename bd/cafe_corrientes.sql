@@ -19,7 +19,10 @@ USE `cafe_corrientes`;
 -- Dumping structure for table cafe_corrientes.clientes
 CREATE TABLE IF NOT EXISTS `clientes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `apellido` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombres` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `direccion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
