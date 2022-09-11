@@ -1,6 +1,10 @@
 <?php
 require 'conectar.php';
-include("auth_session.php");
+session_start();
+if(!isset($_SESSION["usuario"])) {
+    header("Location: login.php");
+    exit();
+}
 $query = 'SELECT * FROM productos';
 $res = mysqli_query($mysqli, $query);
 //$row = mysqli_fetch_assoc($res);

@@ -108,6 +108,7 @@ if(!isset($_SESSION["usuario"])) {
                         <?= isset($result_html) ? $result_html : '' ?>
                         <strong><?php echo "Total a pagar: $ " . number_format($total, 2); ?></strong>
                     </div>
+                    <div class="panel-foot"><br><a href="index.php">Realizar otra compra</a></div>
                 </div>
             </div>
         </div>
